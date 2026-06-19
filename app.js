@@ -4,9 +4,12 @@ const path = require("path");
 const express = require("express");
 //Local Module
 const userRouter = require("./routes/userRouter.js");
-const hostRouter = require("./routes/hostRouter.js");
+const { hostRouter } = require("./routes/hostRouter.js");
 const rootDir = require("./utils/pathUtil.js");
 const app = express();
+
+app.set("view engine", "ejs");
+app.set("views", "views");
 
 app.use(express.urlencoded());
 app.use(userRouter);

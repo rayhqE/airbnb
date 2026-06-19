@@ -8,9 +8,11 @@ hostRouter.get("/add-home", (req, res, next) => {
   res.sendFile(path.join(rootDir, "views", "addHome.html"));
 });
 
+const registeredHouseNames = [];
 hostRouter.post("/add-home", (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body.houseName);
+  registeredHouseNames.push({ houseName: req.body.houseName });
   res.sendFile(path.join(rootDir, "views", "homeAdded.html"));
 });
 
-module.exports = hostRouter;
+module.exports = { hostRouter, registeredHouseNames };
