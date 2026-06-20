@@ -19,11 +19,11 @@ exports.postAddHome = (req, res, next) => {
 };
 
 exports.getHome = (req, res, next) => {
-  const registeredHomes = Home.fetchAll();
-  console.log(registeredHomes);
-  res.render("home", {
-    registeredHomes: registeredHomes,
-    pageTitle: "airbnb Home",
-    currentPage: "Home",
-  });
+  Home.fetchAll((registeredHomes) =>
+    res.render("home", {
+      registeredHomes: registeredHomes,
+      pageTitle: "airbnb Home",
+      currentPage: "Home",
+    }),
+  );
 };
