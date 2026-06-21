@@ -6,6 +6,15 @@ exports.getAddHome = (req, res, next) => {
     currentPage: "addHome",
   });
 };
+exports.getHostHomes = (req, res, next) => {
+  Home.fetchAll((registeredHomes) =>
+    res.render("host/host-home-list", {
+      registeredHomes: registeredHomes,
+      pageTitle: "Host Homes list",
+      currentPage: "host-homes",
+    }),
+  );
+};
 
 exports.postAddHome = (req, res, next) => {
   // console.log("Home Registration successful for:", req.body);
@@ -17,4 +26,3 @@ exports.postAddHome = (req, res, next) => {
     currentPage: "homeAdded",
   });
 };
-
