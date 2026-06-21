@@ -12,7 +12,7 @@
             <div
               class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300 w-full max-w-sm">
                   <img
-                src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
+                src="<%= home.photoUrl %>"
                 alt="<%= home.houseName %>" class="w-full h-48 object-cover">
           
               <div class="p-4">
@@ -36,6 +36,7 @@
                     </span>
                   </div>
                 </div>
+                <a class="bg-blue-300 p-2" href="/homes/<%= home.id %>">Details</a>
                 <button class="bg-green-300 p-2">Book</button>
               </div>
             </div>
