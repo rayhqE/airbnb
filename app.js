@@ -7,15 +7,9 @@ const storeRouter = require("./routes/storeRouter.js");
 const hostRouter = require("./routes/hostRouter.js");
 const rootDir = require("./utils/pathUtil.js");
 const { get404 } = require("./controllers/errors.js");
-const db = require("./utils/databaseUtil.js");
 
-db.execute("SELECT  * FROM homes")
-  .then(([rows, fields]) => {
-    console.log("Getting From DB", rows);
-  })
-  .catch((error) => {
-    console.log("Error while reading home records", error);
-  });
+
+
 const app = express();
 
 app.set("view engine", "ejs");

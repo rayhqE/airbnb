@@ -11,7 +11,8 @@ exports.getAddHome = (req, res, next) => {
 exports.getEditHome = (req, res, next) => {
   const homeId = req.params.homeId;
   const editing = req.query.editing === "true";
-  Home.findById(homeId, (home) => {
+  Home.findById(homeId).then(([homes]) => {
+    const home = homes[0];
     if (!home) {
       console.log("Home not found for editing");
       res.redirect("/host/host-home-list");
@@ -19,7 +20,7 @@ exports.getEditHome = (req, res, next) => {
       console.log(homeId, editing, home);
       res.render("host/edit-home", {
         home: home,
-        pageTitle: "Edit your home",
+        pageTitle: "Edit your home",  
         currentPage: "host-homes",
         editing: editing,
       });
@@ -28,28 +29,44 @@ exports.getEditHome = (req, res, next) => {
 };
 
 exports.getHostHomes = (req, res, next) => {
-  Home.fetchAll((registeredHomes) =>
+  Home.fetchAll().then(([registeredHomes]) => {
     res.render("host/host-home-list", {
       registeredHomes: registeredHomes,
       pageTitle: "Host Homes list",
       currentPage: "host-homes",
-    }),
-  );
+    });
+  });
 };
 
 exports.postAddHome = (req, res, next) => {
   // console.log("Home Registration successful for:", req.body);
-  const { houseName, price, location, rating, photoUrl } = req.body;
-  const home = new Home(houseName, price, location, rating, photoUrl);
-  home.save();
+  const { houseName, price, location, rating, photoUrl, description } =
+    req.body;
+  const home = new Home(
+    houseName,
+    price,
+    location,
+    rating,
+    photoUrl,
+    description,
+  );
+  home.save()
   res.redirect("/host/host-home-list");
 };
 
 exports.postEditHome = (req, res, next) => {
   // console.log("Home Registration successful for:", req.body);
-  const { id, houseName, price, location, rating, photoUrl } = req.body;
-  const home = new Home(houseName, price, location, rating, photoUrl);
-  home.id = id;
+  const { id, houseName, price, location, rating, photoUrl, description } =
+    req.body;
+  const home = new Home(
+    houseName,
+    price,
+    location,
+    rating,
+    photoUrl,
+    description,
+    id,
+  );
   home.save();
   res.redirect("/host/host-home-list");
 };
@@ -57,10 +74,11 @@ exports.postEditHome = (req, res, next) => {
 exports.postDeleteHome = (req, res, next) => {
   const homeId = req.params.homeId;
   console.log("Came to delete  ", homeId);
-  Home.deleteById(homeId, (error) => {
-    if (error) {
-      console.log("Error while deleting: ", error);
-    }
-    res.redirect("/host/host-home-list");
-  });
+  Home.deleteById(homeId)
+    .then(() => {
+      res.redirect("/host/host-home-list");
+    })
+    .catch((err) => {
+      console.log("Error while deleting: ", err);
+    });
 };
