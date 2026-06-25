@@ -7,8 +7,7 @@ const storeRouter = require("./routes/storeRouter.js");
 const hostRouter = require("./routes/hostRouter.js");
 const rootDir = require("./utils/pathUtil.js");
 const { get404 } = require("./controllers/errors.js");
-
-
+const { mongoConnect } = require("./utils/databaseUtil.js");
 
 const app = express();
 
@@ -23,6 +22,8 @@ app.use(express.static(path.join(rootDir, "public")));
 app.use(get404);
 
 const PORT = 3003;
-app.listen(PORT, () => {
-  console.log(`Server is listening on address: http://localhost:${PORT}`);
+mongoConnect(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is listening on address: http://localhost:${PORT}`);
+  });
 });

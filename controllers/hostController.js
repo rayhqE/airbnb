@@ -20,7 +20,7 @@ exports.getEditHome = (req, res, next) => {
       console.log(homeId, editing, home);
       res.render("host/edit-home", {
         home: home,
-        pageTitle: "Edit your home",  
+        pageTitle: "Edit your home",
         currentPage: "host-homes",
         editing: editing,
       });
@@ -50,7 +50,9 @@ exports.postAddHome = (req, res, next) => {
     photoUrl,
     description,
   );
-  home.save()
+  home.save().then(() => {
+    console.log("Home Saved Successfully");
+  });
   res.redirect("/host/host-home-list");
 };
 
